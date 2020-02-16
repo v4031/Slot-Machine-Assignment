@@ -20,25 +20,27 @@ var scenes;
         // CONSTRUCTOR
         function End() {
             var _this = _super.call(this) || this;
-            // initialization
-            _this.endLabel = new objects.Label();
-            _this.nextButton = new objects.Button();
             _this.Start();
             return _this;
         }
         // PUBLIC METHODS
         End.prototype.Start = function () {
-            this.endLabel = new objects.Label("End Scene", "80px", "Consolas", "#000000", 320, 200, true);
-            this.nextButton = new objects.Button("./Assets/images/backButton.png", 320, 400, true);
+            this.endLabel = new objects.Label(320, 200, true, "You ran out of Money!", "50px", "Consolas", "#000000");
+            this.retryButton = new objects.Button(config.Game.ASSETS.getResult("retryButton"), 220, 400, true);
+            this.quitButton = new objects.Button(config.Game.ASSETS.getResult("quitButton"), 420, 400, true);
             this.Main();
         };
         End.prototype.Update = function () {
         };
         End.prototype.Main = function () {
             this.addChild(this.endLabel);
-            this.addChild(this.nextButton);
-            this.nextButton.on("click", function () {
+            this.addChild(this.retryButton);
+            this.addChild(this.quitButton);
+            this.retryButton.on("click", function () {
                 config.Game.SCENE_STATE = scenes.State.PLAY;
+            });
+            this.quitButton.on("click", function () {
+                config.Game.SCENE_STATE = scenes.State.START;
             });
         };
         return End;

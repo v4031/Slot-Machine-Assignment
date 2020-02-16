@@ -4,7 +4,7 @@ module objects
     {
         
         // constructor
-        constructor(imagePath:string = './Assets/images/button.png'
+        constructor(imagePath:Object = config.Game.ASSETS.getResult("lul")
             , x:number = 0, y:number= 0, isCentered:boolean = false)
         {
             super(imagePath, x, y, isCentered);
@@ -37,7 +37,7 @@ module objects
          * @memberof Button
          */
         public Start(): void {
-            
+            this.name = "Button";
         }
 
         public Update(): void {

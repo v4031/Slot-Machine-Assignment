@@ -21,25 +21,23 @@ var scenes;
         function Start() {
             var _this = _super.call(this) || this;
             // initialization
-            _this.startLabel = new objects.Label();
-            _this.startButton = new objects.Button();
+            _this.titleLabel = new objects.Label();
+            _this.playButton = new objects.Button();
             _this.Start();
             return _this;
         }
         // PUBLIC METHODS
         Start.prototype.Start = function () {
-            this.startLabel = new objects.Label("The Game", "80px", "Consolas", "#000000", 320, 200, true);
-            this.startButton = new objects.Button("./Assets/images/startButton.png", 320, 400, true);
-            this.startButton.x = 320;
-            this.startButton.y = 340;
+            this.titleLabel = new objects.Label(320, 200, true, "The Slot Machine", "50px", "Consolas", "#000000");
+            this.playButton = new objects.Button(config.Game.ASSETS.getResult("playButton"), 320, 400, true);
             this.Main();
         };
         Start.prototype.Update = function () {
         };
         Start.prototype.Main = function () {
-            this.addChild(this.startLabel);
-            this.addChild(this.startButton);
-            this.startButton.on("click", function () {
+            this.addChild(this.titleLabel);
+            this.addChild(this.playButton);
+            this.playButton.on("click", function () {
                 config.Game.SCENE_STATE = scenes.State.PLAY;
             });
         };

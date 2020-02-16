@@ -10,6 +10,7 @@ var config;
         Game.WIN = 0;
         Game.LOST = 0;
         Game.WIN_RATE = 0;
+        Game.BET = 10;
         Game.BETLINE = [" ", " ", " "];
         return Game;
     }());

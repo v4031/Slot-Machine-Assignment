@@ -3,8 +3,8 @@ module scenes
     export class Start extends objects.Scene
     {
         // PRIVATE INSTANCE MEMBERS
-        startLabel:objects.Label;
-        startButton:objects.Button;
+        titleLabel:objects.Label;
+        playButton:objects.Button;
 
         // PUBLIC PROPERTIES
 
@@ -14,8 +14,8 @@ module scenes
             super();
 
             // initialization
-            this.startLabel = new objects.Label();
-            this.startButton = new objects.Button();
+            this.titleLabel = new objects.Label();
+            this.playButton = new objects.Button();
 
             this.Start();
         }
@@ -24,10 +24,8 @@ module scenes
 
         public Start(): void 
         {
-            this.startLabel = new objects.Label("The Game", "80px","Consolas", "#000000", 320, 200, true);
-            this.startButton = new objects.Button("./Assets/images/startButton.png", 320, 400, true);
-            this.startButton.x = 320;
-            this.startButton.y = 340;
+            this.titleLabel = new objects.Label( 320, 200, true,"The Slot Machine", "50px","Consolas", "#000000");
+            this.playButton = new objects.Button(config.Game.ASSETS.getResult("playButton"), 320, 400, true);
             this.Main();
         }        
         
@@ -38,11 +36,11 @@ module scenes
         
         public Main(): void {
             
-            this.addChild(this.startLabel);
+            this.addChild(this.titleLabel);
     
-            this.addChild(this.startButton);
+            this.addChild(this.playButton);
     
-            this.startButton.on("click", function() {
+            this.playButton.on("click", function() {
                config.Game.SCENE_STATE = scenes.State.PLAY;
             });
         }

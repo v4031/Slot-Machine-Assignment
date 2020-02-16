@@ -18,7 +18,7 @@ var objects;
         __extends(GameObject, _super);
         // CONSTRUCTOR
         function GameObject(imageString, x, y, centered) {
-            if (imageString === void 0) { imageString = "./Assets/images/placeholder.png"; }
+            if (imageString === void 0) { imageString = config.Game.ASSETS.getResult("placeholder"); }
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
             if (centered === void 0) { centered = false; }
@@ -28,17 +28,14 @@ var objects;
             _this._height = 0;
             _this._halfWidth = 0;
             _this._halfHeight = 0;
+            _this._position = new objects.Vector2(0, 0, _this);
+            _this._velocity = new objects.Vector2(0, 0);
             _this._isColliding = false;
-            _this._isPickedUp = false;
-            _this._isCentered = centered;
-            _this.image.addEventListener("load", function () {
-                _this.width = _this.getBounds().width;
-                _this.height = _this.getBounds().height;
-                if (centered) {
-                    _this.regX = _this.halfWidth;
-                    _this.regY = _this.halfHeight;
-                }
-            });
+            _this._isCentered = false;
+            _this.width = _this.getBounds().width;
+            _this.height = _this.getBounds().height;
+            _this.isCentered = centered;
+            _this.position = new objects.Vector2(x, y, _this);
             return _this;
         }
         Object.defineProperty(GameObject.prototype, "width", {
@@ -78,6 +75,28 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(GameObject.prototype, "position", {
+            get: function () {
+                return this._position;
+            },
+            set: function (newPosition) {
+                this._position = newPosition;
+                this.x = newPosition.x;
+                this.y = newPosition.y;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(GameObject.prototype, "velocity", {
+            get: function () {
+                return this._velocity;
+            },
+            set: function (newVelocity) {
+                this._velocity = newVelocity;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(GameObject.prototype, "isColliding", {
             get: function () {
                 return this._isColliding;
@@ -88,22 +107,15 @@ var objects;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(GameObject.prototype, "isPickedUp", {
-            get: function () {
-                return this._isPickedUp;
-            },
-            set: function (newState) {
-                this._isPickedUp = newState;
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(GameObject.prototype, "isCentered", {
             get: function () {
                 return this._isCentered;
             },
             set: function (newState) {
                 this._isCentered = newState;
+                if (newState) {
+                    this._centerGameObject();
+                }
             },
             enumerable: true,
             configurable: true
@@ -114,6 +126,10 @@ var objects;
         };
         GameObject.prototype._computeHalfHeight = function () {
             return this.height * 0.5;
+        };
+        GameObject.prototype._centerGameObject = function () {
+            this.regX = this.halfWidth;
+            this.regY = this.halfHeight;
         };
         return GameObject;
     }(createjs.Bitmap));

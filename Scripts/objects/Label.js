@@ -17,21 +17,22 @@ var objects;
     var Label = /** @class */ (function (_super) {
         __extends(Label, _super);
         // constructor
-        function Label(labelString, fontSize, fontFamily, fontColour, x, y, isCentered) {
-            if (labelString === void 0) { labelString = "empty label"; }
-            if (fontSize === void 0) { fontSize = "12px"; }
-            if (fontFamily === void 0) { fontFamily = "Consolas"; }
-            if (fontColour === void 0) { fontColour = "#000000"; }
+        function Label(x, y, isCentered, labelString, fontSize, fontFamily, fontColour) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
             if (isCentered === void 0) { isCentered = false; }
+            if (labelString === void 0) { labelString = "default"; }
+            if (fontSize === void 0) { fontSize = "12px"; }
+            if (fontFamily === void 0) { fontFamily = "Consolas"; }
+            if (fontColour === void 0) { fontColour = "#000000"; }
             var _this = _super.call(this, labelString, fontSize + " " + fontFamily, fontColour) || this;
+            _this.isCentered = isCentered;
             _this.labelString = labelString;
             _this.fontSize = fontSize;
             _this.fontFamily = fontFamily;
             _this.fontColour = fontColour;
-            _this.isCentered = isCentered;
-            if (isCentered) {
+            _this._isCentered = isCentered;
+            if (_this._isCentered) {
                 _this.regX = _this.getBounds().width * 0.5;
                 _this.regY = _this.getMeasuredLineHeight() * 0.5;
             }
@@ -42,8 +43,10 @@ var objects;
         // methods
         Label.prototype.setText = function (newText) {
             this.text = newText;
-            this.regX = this.getBounds().width * 0.5;
-            this.regY = this.getMeasuredLineHeight() * 0.5;
+            if (this._isCentered) {
+                this.regX = this.getBounds().width * 0.5;
+                this.regY = this.getMeasuredLineHeight() * 0.5;
+            }
         };
         return Label;
     }(createjs.Text));
