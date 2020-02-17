@@ -21,8 +21,8 @@ var Game = (function () {
         { id: "Seven", src: "./Assets/images/Seven.png" },
         { id: "Blank", src: "./Assets/images/Blank.png" },
         { id: "Grapes", src: "./Assets/images/Grapes.png" },
-        { id: "Orange", src: "./Assets/images/Orange.png" },
         { id: "Banana", src: "./Assets/images/Banana.png" },
+        { id: "Orange", src: "./Assets/images/Orange.png" },
         { id: "Cherry", src: "./Assets/images/Cherry.png" },
         { id: "Bar", src: "./Assets/images/Bar.png" },
         { id: "Bell", src: "./Assets/images/Bell.png" },
@@ -41,8 +41,8 @@ var Game = (function () {
     function Start() {
         config.Game.REEL[0] = new createjs.Bitmap(config.Game.ASSETS.getResult("Blank"));
         config.Game.REEL[1] = new createjs.Bitmap(config.Game.ASSETS.getResult("Grapes"));
-        config.Game.REEL[2] = new createjs.Bitmap(config.Game.ASSETS.getResult("Orange"));
-        config.Game.REEL[3] = new createjs.Bitmap(config.Game.ASSETS.getResult("Banana"));
+        config.Game.REEL[2] = new createjs.Bitmap(config.Game.ASSETS.getResult("Banana"));
+        config.Game.REEL[3] = new createjs.Bitmap(config.Game.ASSETS.getResult("Orange"));
         config.Game.REEL[4] = new createjs.Bitmap(config.Game.ASSETS.getResult("Cherry"));
         config.Game.REEL[5] = new createjs.Bitmap(config.Game.ASSETS.getResult("Bar"));
         config.Game.REEL[6] = new createjs.Bitmap(config.Game.ASSETS.getResult("Bell"));
