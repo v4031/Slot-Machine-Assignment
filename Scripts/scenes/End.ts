@@ -3,9 +3,9 @@ module scenes
     export class End extends objects.Scene
     {
         // PRIVATE INSTANCE MEMBERS
-        endLabel:objects.Label;
-        retryButton:objects.Button;
-        quitButton:objects.Button;
+        _endLabel:objects.Label;
+        _retryButton:objects.Button;
+        _quitButton:objects.Button;
 
         // PUBLIC PROPERTIES
 
@@ -20,9 +20,9 @@ module scenes
 
         public Start(): void 
         {
-            this.endLabel = new objects.Label(320, 225, "#ff0000", true, "You've run out of money!", "40px","Consolas");
-            this.retryButton = new objects.Button(config.Game.ASSETS.getResult("retryButton"), 220, 400, true);
-            this.quitButton = new objects.Button(config.Game.ASSETS.getResult("quitButton"), 420, 400, true);
+            this._endLabel = new objects.Label(320, 225, "#ff0000", true, "You've run out of money!", "40px","Consolas");
+            this._retryButton = new objects.Button(config.Game.ASSETS.getResult("retryButton"), 220, 400, true);
+            this._quitButton = new objects.Button(config.Game.ASSETS.getResult("quitButton"), 420, 400, true);
            
             this.Main();
         }        
@@ -34,15 +34,15 @@ module scenes
         
         public Main(): void {
             
-            this.addChild(this.endLabel);
+            this.addChild(this._endLabel);
     
-            this.addChild(this.retryButton);
-            this.addChild(this.quitButton);
+            this.addChild(this._retryButton);
+            this.addChild(this._quitButton);
     
-            this.retryButton.on("click", function() {
+            this._retryButton.on("click", function() {
                 config.Game.SCENE_STATE = scenes.State.PLAY;
              });
-             this.quitButton.on("click", function() {
+             this._quitButton.on("click", function() {
                 config.Game.SCENE_STATE = scenes.State.START;
              });
         }
