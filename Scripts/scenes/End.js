@@ -25,7 +25,7 @@ var scenes;
         }
         // PUBLIC METHODS
         End.prototype.Start = function () {
-            this.endLabel = new objects.Label(320, 200, true, "You ran out of Money!", "50px", "Consolas", "#000000");
+            this.endLabel = new objects.Label(320, 225, "#ff0000", true, "You've run out of money!", "40px", "Consolas");
             this.retryButton = new objects.Button(config.Game.ASSETS.getResult("retryButton"), 220, 400, true);
             this.quitButton = new objects.Button(config.Game.ASSETS.getResult("quitButton"), 420, 400, true);
             this.Main();

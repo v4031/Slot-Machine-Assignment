@@ -18,7 +18,6 @@ var objects;
         __extends(Scene, _super);
         function Scene() {
             return _super.call(this) || this;
-            //this.Start();
         }
         return Scene;
     }(createjs.Container));

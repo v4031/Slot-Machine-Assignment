@@ -1,5 +1,7 @@
 #canvas
 {
     border: solid, black, 5px;
-
+    width: auto;
+    margin-left: 30vw;
+    background-image: url(../Assets/Images/back.png);
 }   

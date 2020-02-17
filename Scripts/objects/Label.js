@@ -17,20 +17,20 @@ var objects;
     var Label = /** @class */ (function (_super) {
         __extends(Label, _super);
         // constructor
-        function Label(x, y, isCentered, labelString, fontSize, fontFamily, fontColour) {
+        function Label(x, y, fontColour, isCentered, labelString, fontSize, fontFamily) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
+            if (fontColour === void 0) { fontColour = "#000000"; }
             if (isCentered === void 0) { isCentered = false; }
             if (labelString === void 0) { labelString = "default"; }
-            if (fontSize === void 0) { fontSize = "12px"; }
+            if (fontSize === void 0) { fontSize = "17px"; }
             if (fontFamily === void 0) { fontFamily = "Consolas"; }
-            if (fontColour === void 0) { fontColour = "#000000"; }
             var _this = _super.call(this, labelString, fontSize + " " + fontFamily, fontColour) || this;
+            _this.fontColour = fontColour;
             _this.isCentered = isCentered;
             _this.labelString = labelString;
             _this.fontSize = fontSize;
             _this.fontFamily = fontFamily;
-            _this.fontColour = fontColour;
             _this._isCentered = isCentered;
             if (_this._isCentered) {
                 _this.regX = _this.getBounds().width * 0.5;

@@ -34,6 +34,9 @@ var objects;
         };
         Reel.prototype.Reset = function () {
         };
+        Reel.prototype.ChangeImage = function (num) {
+            this.image = config.Game.REEL[num].image;
+        };
         return Reel;
     }(objects.GameObject));
     objects.Reel = Reel;

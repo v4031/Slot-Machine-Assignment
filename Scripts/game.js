@@ -4,29 +4,15 @@
 var Game = (function () {
     var canvas = document.getElementsByTagName("canvas")[0];
     var stage;
-    var playerMoney = 1000;
-    var winnings = 0;
-    var jackpot = 5000;
-    var turn = 0;
-    var playerBet = 0;
-    var winNumber = 0;
-    var lossNumber = 0;
-    var spinResult;
-    var fruits = "";
-    var winRatio = 0;
-    var grapes = 0;
-    var bananas = 0;
-    var oranges = 0;
-    var cherries = 0;
-    var bars = 0;
-    var bells = 0;
-    var sevens = 0;
-    var blanks = 0;
     var currentSceneState;
     var currentScene;
     var assets;
     var assetManifest = [
-        { id: "placeholder", src: "./Assets/images/lul.png" },
+        { id: "noice", src: "./Assets/sounds/noice.mp3" },
+        { id: "bet", src: "./Assets/sounds/bet.mp3" },
+        { id: "win", src: "./Assets/sounds/win.mp3" },
+        { id: "lose", src: "./Assets/sounds/lose.mp3" },
+        { id: "broke", src: "./Assets/sounds/broke.mp3" },
         { id: "playButton", src: "./Assets/images/playButton.png" },
         { id: "spinButton", src: "./Assets/images/spinButton.png" },
         { id: "betButton", src: "./Assets/images/betButton.png" },
@@ -41,16 +27,26 @@ var Game = (function () {
         { id: "Bar", src: "./Assets/images/Bar.png" },
         { id: "Bell", src: "./Assets/images/Bell.png" },
         { id: "Seven", src: "./Assets/images/Seven.png" },
+        { id: "top", src: "./Assets/images/top1.png" },
         { id: "reel", src: "./Assets/images/reel.png" },
         { id: "lul", src: "./Assets/images/lul.png" },
     ];
     function Preload() {
         assets = new createjs.LoadQueue();
         config.Game.ASSETS = assets;
+        assets.installPlugin(createjs.Sound); // enable sound preloading
         assets.loadManifest(assetManifest);
         assets.on("complete", Start);
     }
     function Start() {
+        config.Game.REEL[0] = new createjs.Bitmap(config.Game.ASSETS.getResult("Blank"));
+        config.Game.REEL[1] = new createjs.Bitmap(config.Game.ASSETS.getResult("Grapes"));
+        config.Game.REEL[2] = new createjs.Bitmap(config.Game.ASSETS.getResult("Orange"));
+        config.Game.REEL[3] = new createjs.Bitmap(config.Game.ASSETS.getResult("Banana"));
+        config.Game.REEL[4] = new createjs.Bitmap(config.Game.ASSETS.getResult("Cherry"));
+        config.Game.REEL[5] = new createjs.Bitmap(config.Game.ASSETS.getResult("Bar"));
+        config.Game.REEL[6] = new createjs.Bitmap(config.Game.ASSETS.getResult("Bell"));
+        config.Game.REEL[7] = new createjs.Bitmap(config.Game.ASSETS.getResult("Seven"));
         stage = new createjs.Stage(canvas);
         createjs.Ticker.framerate = 60; //60 FPS
         createjs.Ticker.on("tick", Update);

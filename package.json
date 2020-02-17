@@ -1,6 +1,6 @@
 {
   "name": "vietanhpham-comp307-assignment1",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Slot Machine Assignment",
   "main": "game.js",
   "author": "Viet Anh Pham",

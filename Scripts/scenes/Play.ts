@@ -3,38 +3,40 @@ module scenes
     export class Play extends objects.Scene
     {
         // PRIVATE INSTANCE MEMBERS
-        spinButton:objects.Button;
-        betButton:objects.Button;
-        quitButton:objects.Button;
-        moneyLabel:objects.Label;
-        jackpotLabel:objects.Label;
-        turnLabel:objects.Label;
-        winLabel:objects.Label;
-        lossLabel:objects.Label;
-        winRatio:objects.Label;
-        result:objects.Label;
-        betAmount:objects.Label;
-        reelBackground:objects.Reel;
-        reelGrapes:objects.Reel;
-        reelBananas:objects.Reel;
-        reelOranges:objects.Reel;
-        reelCherries:objects.Reel;
-        reelBars:objects.Reel;
-        reelBells:objects.Reel;
-        reelSevens:objects.Reel;
-        reelBlanks:objects.Reel;
-        test:objects.Reel[] = [];
+        private _playerMoney: number=1000;
+        private _turn: number = 0;
+        private _jackpot: number = 5000;
+        private _win: number = 0;
+        private _lost: number = 0;
+        private _winRate: number= 0;
+        private _bet: number= 25;
+        private _betLine: string[] = [" ", " ", " "];
+        //Button
+        private _spinButton:objects.Button;
+        private _betButton:objects.Button;
+        private _quitButton:objects.Button;
+        //Label
+        private _moneyLabel:objects.Label;
+        private _jackpotLabel:objects.Label;
+        private _turnLabel:objects.Label;
+        private _winLabel:objects.Label;
+        private _lossLabel:objects.Label;
+        private _winRatio:objects.Label;
+        private _result:objects.Label;
+        private _betAmount:objects.Label;
+        //Reel
+        private _reelFrame:objects.Reel;
+        private _reel:objects.Reel[] = [];
+        private _grapes = 0;
+        private _bananas = 0;
+        private _oranges = 0;
+        private _cherries = 0;
+        private _bars = 0;
+        private _bells = 0;
+        private _sevens = 0;
+        private _blanks = 0;
+        private _winnings = 0;
         
-        // PUBLIC PROPERTIES
-        grapes = 0;
-        bananas = 0;
-        oranges = 0;
-        cherries = 0;
-        bars = 0;
-        bells = 0;
-        sevens = 0;
-        blanks = 0;
-        winnings = 0;
         // CONSTRUCTOR
         constructor()
         {
@@ -47,36 +49,28 @@ module scenes
 
         public Start(): void 
         {
-            this.moneyLabel = new objects.Label(10,10);
-            this.jackpotLabel = new objects.Label(10,20);
-            this.turnLabel = new objects.Label(10,30);
-            this.winLabel = new objects.Label(10,40);
-            this.lossLabel = new objects.Label(10,50);
-            this.winRatio = new objects.Label(10,60);
-            this.betAmount = new objects.Label(10,70);
-            this.result = new objects.Label(320, 100, true, " ","19px");
-            this.test[0] = new objects.Reel(config.Game.ASSETS.getResult("lul"),40, 130, false);
-            this.test[1] = new objects.Reel(config.Game.ASSETS.getResult("lul"),250, 130, false);
-            this.test[2] = new objects.Reel(config.Game.ASSETS.getResult("lul"),460, 130, false);
-            this.reelBackground = new objects.Reel(config.Game.ASSETS.getResult("reel"), 0, 120, false);
-            this.reelBlanks = new objects.Reel(config.Game.ASSETS.getResult("Blank"));
-            this.reelGrapes = new objects.Reel(config.Game.ASSETS.getResult("Grapes"));
-            this.reelOranges = new objects.Reel(config.Game.ASSETS.getResult("Orange"));
-            this.reelBananas = new objects.Reel(config.Game.ASSETS.getResult("Banana"));
-            this.reelCherries = new objects.Reel(config.Game.ASSETS.getResult("Cherry"));
-            this.reelBars = new objects.Reel(config.Game.ASSETS.getResult("Bar"));
-            this.reelBells = new objects.Reel(config.Game.ASSETS.getResult("Bell"));
-            this.reelSevens = new objects.Reel(config.Game.ASSETS.getResult("Seven"));
-            this.spinButton = new objects.Button(config.Game.ASSETS.getResult("spinButton"), 320, 400, true);
-            this.betButton = new objects.Button(config.Game.ASSETS.getResult("betButton"), 120, 400, true);
-            this.quitButton = new objects.Button(config.Game.ASSETS.getResult("quitButton"), 520, 400, true);
-            this.moneyLabel.setText("Player Money: "+ config.Game.PLAYER_MONEY);
-            this.jackpotLabel.setText("Jackpot: "+ config.Game.JACKPOT);
-            this.turnLabel.setText("Turn: "+ config.Game.TURN);
-            this.winLabel.setText("Wins: "+ config.Game.WIN);
-            this.lossLabel.setText("Losses: "+ config.Game.LOST);
-            this.winRatio.setText("Win Ratio: 0.00%");
-            this.betAmount.setText("Bet: " + config.Game.BET);
+            this._reel[0] = new objects.Reel(config.Game.ASSETS.getResult("lul"),40, 165, false);
+            this._reel[1] = new objects.Reel(config.Game.ASSETS.getResult("lul"),250, 165, false);
+            this._reel[2] = new objects.Reel(config.Game.ASSETS.getResult("lul"),460, 165, false);
+            this._moneyLabel = new objects.Label(30,25,"Yellow");
+            this._jackpotLabel = new objects.Label(230,55,"Yellow");
+            this._turnLabel = new objects.Label(30,55,"Yellow");
+            this._winLabel = new objects.Label(30,85,"Yellow");
+            this._lossLabel = new objects.Label(230,85,"Yellow");
+            this._winRatio = new objects.Label(30,115,"Yellow");
+            this._betAmount = new objects.Label(230,115,"Yellow");
+            this._result = new objects.Label(530, 80,"Yellow", true, " ","19px");
+            this._reelFrame = new objects.Reel(config.Game.ASSETS.getResult("reel"), 0, 155, false);
+            this._spinButton = new objects.Button(config.Game.ASSETS.getResult("spinButton"), 320, 400, true);
+            this._betButton = new objects.Button(config.Game.ASSETS.getResult("betButton"), 120, 400, true);
+            this._quitButton = new objects.Button(config.Game.ASSETS.getResult("quitButton"), 520, 400, true);
+            this._moneyLabel.setText("Player Money: "+ this._playerMoney);
+            this._jackpotLabel.setText("Jackpot: "+ this._jackpot);
+            this._turnLabel.setText("Turn: "+ this._turn);
+            this._winLabel.setText("Wins: "+ this._win);
+            this._lossLabel.setText("Losses: "+ this._lost);
+            this._winRatio.setText("Win Ratio: 0.00%");
+            this._betAmount.setText("Bet: " + this._bet);
             this.Main();
         }        
         
@@ -85,39 +79,38 @@ module scenes
         }
         
         public resetFruitTally() {
-            this.grapes = 0;
-            this.bananas = 0;
-            this.oranges = 0;
-            this.cherries = 0;
-            this.bars = 0;
-            this.bells = 0;
-            this.sevens = 0;
-            this.blanks = 0;
+            this._grapes = 0;
+            this._bananas = 0;
+            this._oranges = 0;
+            this._cherries = 0;
+            this._bars = 0;
+            this._bells = 0;
+            this._sevens = 0;
+            this._blanks = 0;
         }
         public Main(): void {
             
-            this.addChild(this.jackpotLabel);
-            this.addChild(this.moneyLabel);
-            this.addChild(this.turnLabel);
-            this.addChild(this.winLabel);
-            this.addChild(this.lossLabel);
-            this.addChild(this.winRatio);
-            this.addChild(this.betAmount);
-            this.addChild(this.result);
-            this.addChild(this.test[0]);
-            this.addChild(this.test[1]);
-            this.addChild(this.test[2]);
-            this.addChild(this.reelBackground);
-            this.addChild(this.betButton);
-            this.addChild(this.spinButton);
-            this.addChild(this.quitButton);
+            this.addChild(this._jackpotLabel);
+            this.addChild(this._moneyLabel);
+            this.addChild(this._turnLabel);
+            this.addChild(this._winLabel);
+            this.addChild(this._lossLabel);
+            this.addChild(this._winRatio);
+            this.addChild(this._betAmount);
+            this.addChild(this._result);
+            this.addChild(this._reel[0]);
+            this.addChild(this._reel[1]);
+            this.addChild(this._reel[2]);
+            this.addChild(this._reelFrame);
+            this.addChild(this._betButton);
+            this.addChild(this._spinButton);
+            this.addChild(this._quitButton);
     
-            this.spinButton.on("click", this.Spin.bind(this));
-            this.betButton.on("click", this.Bet.bind(this));
-            this.quitButton.on("click", this.Quit.bind(this));
+            this._spinButton.on("click", this.Spin.bind(this));
+            this._betButton.on("click", this.Bet.bind(this));
+            this._quitButton.on("click", this.Quit.bind(this));
         }
         
-        /* Utility function to check if a value falls within a range of bounds */
         public checkRange(value: number, lowerBounds: number, upperBounds: number) {
             if (value >= lowerBounds && value <= upperBounds)
             {
@@ -133,201 +126,205 @@ module scenes
             for (let spin = 0; spin < 3; spin++) {
                 outCome[spin] = Math.floor((Math.random() * 65) + 1);
                 switch (outCome[spin]) {
-                    case this.checkRange(outCome[spin], 1, 27):  // 41.5% probability
-                        config.Game.BETLINE[spin] = "blank";
-                        this.test[spin].image = this.reelBlanks.image;
-                        this.blanks++;
+                    case this.checkRange(outCome[spin], 1, 27):  // blank 41.5% probability
+                        this._betLine[spin] = "blank";
+                        this._reel[spin].ChangeImage(0);
+                        this._blanks++;
                         break;
-                    case this.checkRange(outCome[spin], 28, 37): // 15.4% probability
-                        config.Game.BETLINE[spin] = "Grapes";
-                        this.test[spin].image = this.reelGrapes.image;
-                        this.grapes++;
+                    case this.checkRange(outCome[spin], 28, 37): // grapes 15.4% probability
+                        this._betLine[spin] = "Grapes";
+                        this._reel[spin].ChangeImage(1);
+                        this._grapes++;
                         break;
-                    case this.checkRange(outCome[spin], 38, 46): // 13.8% probability
-                        config.Game.BETLINE[spin] = "Banana";
-                        this.test[spin].image = this.reelBananas.image;
-                        this.bananas++;
+                    case this.checkRange(outCome[spin], 38, 46): // banana 13.8% probability
+                        this._betLine[spin] = "Banana";
+                        this._reel[spin].ChangeImage(2);
+                        this._bananas++;
                         break;
-                    case this.checkRange(outCome[spin], 47, 54): // 12.3% probability
-                        config.Game.BETLINE[spin] = "Orange";
-                        this.test[spin].image = this.reelOranges.image;
-                        this.oranges++;
+                    case this.checkRange(outCome[spin], 47, 54): // orange 12.3% probability
+                        this._betLine[spin] = "Orange";
+                        this._reel[spin].ChangeImage(3);
+                        this._oranges++;
                         break;
-                    case this.checkRange(outCome[spin], 55, 59): //  7.7% probability
-                        config.Game.BETLINE[spin] = "Cherry";
-                        this.test[spin].image = this.reelCherries.image;
-                        this.cherries++;
+                    case this.checkRange(outCome[spin], 55, 59): // cherry  7.7% probability
+                        this._betLine[spin] = "Cherry";
+                        this._reel[spin].ChangeImage(4);
+                        this._cherries++;
                         break;
-                    case this.checkRange(outCome[spin], 60, 62): //  4.6% probability
-                        config.Game.BETLINE[spin] = "Bar";
-                        this.test[spin].image = this.reelBars.image;
-                        this.bars++;
+                    case this.checkRange(outCome[spin], 60, 62): // bar 4.6% probability
+                        this._betLine[spin] = "Bar";
+                        this._reel[spin].ChangeImage(5);
+                        this._bars++;
                         break;
-                    case this.checkRange(outCome[spin], 63, 64): //  3.1% probability
-                        config.Game.BETLINE[spin] = "Bell";
-                        this.test[spin].image = this.reelBells.image;
-                        this.bells++;
+                    case this.checkRange(outCome[spin], 63, 64): // bell 3.1% probability
+                        this._betLine[spin] = "Bell";
+                        this._reel[spin].ChangeImage(6);
+                        this._bells++;
                         break;
-                    case this.checkRange(outCome[spin], 65, 65): //  1.5% probability
-                        config.Game.BETLINE[spin] = "Seven";
-                        this.test[spin].image = this.reelSevens.image;
-                        this.sevens++;
+                    case this.checkRange(outCome[spin], 65, 65): // seven 1.5% probability
+                        this._betLine[spin] = "Seven";
+                        this._reel[spin].ChangeImage(7);
+                        this._sevens++;
                         break;
                 }
             }
         }
         public determineWinnings()
         {
-            if (this.blanks == 0)
+            if (this._blanks == 0)
             {
-                if (this.grapes == 3) {
-                    this.winnings = config.Game.BET * 10;
+                if (this._grapes == 3) {
+                    this._winnings = this._bet * 10;
                 }
-                else if(this.bananas == 3) {
-                    this.winnings = config.Game.BET * 20;
+                else if(this._bananas == 3) {
+                    this._winnings = this._bet * 20;
                 }
-                else if (this.oranges == 3) {
-                    this.winnings = config.Game.BET * 30;
+                else if (this._oranges == 3) {
+                    this._winnings = this._bet * 30;
                 }
-                else if (this.cherries == 3) {
-                    this.winnings = config.Game.BET * 40;
+                else if (this._cherries == 3) {
+                    this._winnings = this._bet * 40;
                 }
-                else if (this.bars == 3) {
-                    this.winnings = config.Game.BET * 50;
+                else if (this._bars == 3) {
+                    this._winnings = this._bet * 50;
                 }
-                else if (this.bells == 3) {
-                    this.winnings = config.Game.BET * 75;
+                else if (this._bells == 3) {
+                    this._winnings = this._bet * 75;
                 }
-                else if (this.sevens == 3) {
-                    this.winnings = config.Game.BET * 100;
+                else if (this._sevens == 3) {
+                    this._winnings = this._bet * 100;
                 }
-                else if (this.grapes == 2) {
-                    this.winnings = config.Game.BET * 2;
+                else if (this._grapes == 2) {
+                    this._winnings = this._bet * 2;
                 }
-                else if (this.bananas == 2) {
-                    this.winnings = config.Game.BET * 2;
+                else if (this._bananas == 2) {
+                    this._winnings = this._bet * 2;
                 }
-                else if (this.oranges == 2) {
-                    this.winnings = config.Game.BET * 3;
+                else if (this._oranges == 2) {
+                    this._winnings = this._bet * 3;
                 }
-                else if (this.cherries == 2) {
-                    this.winnings = config.Game.BET * 4;
+                else if (this._cherries == 2) {
+                    this._winnings = this._bet * 4;
                 }
-                else if (this.bars == 2) {
-                    this.winnings = config.Game.BET * 5;
+                else if (this._bars == 2) {
+                    this._winnings = this._bet * 5;
                 }
-                else if (this.bells == 2) {
-                    this.winnings = config.Game.BET * 10;
+                else if (this._bells == 2) {
+                    this._winnings = this._bet * 10;
                 }
-                else if (this.sevens == 2) {
-                    this.winnings = config.Game.BET * 20;
+                else if (this._sevens == 2) {
+                    this._winnings = this._bet * 20;
                 }
-                else if (this.sevens == 1) {
-                    this.winnings = config.Game.BET * 5;
+                else if (this._sevens == 1) {
+                    this._winnings = this._bet * 5;
                 }
                 else {
-                    this.winnings = config.Game.BET * 1;
+                    this._winnings = this._bet * 1;
                 }
-                config.Game.WIN++;
+                this._win++;
+                let winSound = createjs.Sound.play("win");
+                winSound.volume = 0.3;
                 this.showWinMessage();
                 }
             else
             {
-                config.Game.LOST++;
+                this._lost++;
+                let lostSound = createjs.Sound.play("lose");
+                lostSound.volume = 0.3;
                 this.showLossMessage();
             }
                 
         }
-                /* Check to see if the player won the jackpot */
+        /* Check to see if the player won the jackpot */
         public checkJackPot() {
             /* compare two random values */
             let jackPotTry = Math.floor(Math.random() * 51 + 1);
             let jackPotWin = Math.floor(Math.random() * 51 + 1);
             if (jackPotTry == jackPotWin) {
-                this.result.setText("You Won the $" + config.Game.JACKPOT + " Jackpot!!");
-                config.Game.PLAYER_MONEY += config.Game.JACKPOT;
-                config.Game.JACKPOT = 1000;
+                this._result.setText("Jackpot!! $" + this._jackpot + " ");
+                this._playerMoney += this._jackpot;
+                this._jackpot = 1000;
+                let jackpotSound = createjs.Sound.play("noice");
+                jackpotSound.volume = 0.75;
             }
         }
 
         /* Utility function to show a win message and increase player money */
         public showWinMessage() {
-            config.Game.PLAYER_MONEY += this.winnings;
-            this.result.setText("You Won:" +this.winnings + " $");
+            this._playerMoney += this._winnings;
+            this._result.setText("You Won: $" + this._winnings);
             this.checkJackPot();
             this.resetFruitTally();
         }
 
         /* Utility function to show a loss message and reduce player money */
         public showLossMessage() {
-            config.Game.PLAYER_MONEY -= config.Game.BET;
-            this.result.setText("You Lost!");
+            this._playerMoney -= this._bet;
+            this._result.setText("You Lost!");
             this.resetFruitTally();
         }
 
         public Spin() {
-            if (config.Game.PLAYER_MONEY == 0)
+            if (this._playerMoney == 0)
             {
                     this.resetAll()
+                    let brokeSound = createjs.Sound.play("broke");
+                    brokeSound.volume = 0.5;
                     config.Game.SCENE_STATE = scenes.State.END;
             }
-            else if (config.Game.BET > config.Game.PLAYER_MONEY ) {
-                this.result.setText("You don't have enough money");
+            else if (this._bet > this._playerMoney ) {
+                this._result.setText("Not enough money");
             }
-            else if (config.Game.BET <= config.Game.PLAYER_MONEY ) {
+            else if (this._bet <= this._playerMoney ) {
                 this.Reels()
-                let fruits = config.Game.BETLINE[0] + " - " + config.Game.BETLINE[1] + " - " + config.Game.BETLINE[2];
-                console.log(fruits);
                 this.determineWinnings();
-                config.Game.TURN++;
-                this.showPlayerStats();
+                this._turn++;
+                this.playerStats();
             }
         }        
-        public showPlayerStats()
+        public playerStats()
         {
-            config.Game.WIN_RATE = config.Game.WIN / config.Game.TURN;
-            this.moneyLabel.setText("Player Money: "+ config.Game.PLAYER_MONEY);
-            this.jackpotLabel.setText("Jackpot: "+ config.Game.JACKPOT);
-            this.turnLabel.setText("Turn: "+ config.Game.TURN);
-            this.winLabel.setText("Wins: "+ config.Game.WIN);
-            this.lossLabel.setText("Losses: "+ config.Game.LOST);
-                this.winRatio.setText("Win Ratio: " + (config.Game.WIN_RATE * 100).toFixed(2) + "%");
-            this.betAmount.setText("Bet: " +config.Game.BET);
+            this._winRate = this._win / this._turn;
+            this._moneyLabel.setText("Player Money: "+ this._playerMoney);
+            this._jackpotLabel.setText("Jackpot: "+ this._jackpot);
+            this._turnLabel.setText("Turn: "+ this._turn);
+            this._winLabel.setText("Wins: "+ this._win);
+            this._lossLabel.setText("Losses: "+ this._lost);
+            this._winRatio.setText("Win Ratio: " + (this._winRate * 100).toFixed(2) + "%");
+            this._betAmount.setText("Bet: " +this._bet);
         }
         public resetAll() {
-            config.Game.PLAYER_MONEY = 1000;
-            config.Game.WIN = 0;
-            config.Game.JACKPOT = 5000;
-            config.Game.TURN = 0;
-            config.Game.BET = 0;
-            config.Game.WIN = 0;
-            config.Game.LOST = 0;
-            config.Game.WIN_RATE = 0;
-            this.showPlayerStats();
+            this._playerMoney = 1000;
+            this._win = 0;
+            this._jackpot = 5000;
+            this._turn = 0;
+            this._bet = 25;
+            this._win = 0;
+            this._lost = 0;
+            this._winRate = 0;
+            this.playerStats();
         }
         
         public Bet() {
-            if(config.Game.BET < 50)
+            let betSound = createjs.Sound.play("bet");
+            betSound.volume = 0.5;
+            if(this._bet < 100)
             {
-                config.Game.BET +=10;
+                this._bet +=25;
             }
-            else if(config.Game.BET == 50)
+            else if (this._bet < 500)
             {
-                config.Game.BET +=50;
+                this._bet += 100;
             }
-            else if (config.Game.BET < 500)
+            else if(this._bet == 500)
             {
-                config.Game.BET += 100;
-            }
-            else if(config.Game.BET == 500)
-            {
-                config.Game.BET = 10;
+                this._bet = 25;
             }
 
-            if(config.Game.BET > config.Game.PLAYER_MONEY)
+            if(this._bet > this._playerMoney)
             {
             }
-            this.betAmount.setText("Bet: " +config.Game.BET);
+            this._betAmount.setText("Bet: " +this._bet);
         }
         public Quit() {
             this.resetAll();

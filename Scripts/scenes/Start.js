@@ -28,7 +28,7 @@ var scenes;
         }
         // PUBLIC METHODS
         Start.prototype.Start = function () {
-            this.titleLabel = new objects.Label(320, 200, true, "The Slot Machine", "50px", "Consolas", "#000000");
+            this.titleLabel = new objects.Label(320, 225, "#ffcf00", true, "The Slot Machine", "50px", "Consolas");
             this.playButton = new objects.Button(config.Game.ASSETS.getResult("playButton"), 320, 400, true);
             this.Main();
         };

@@ -4,11 +4,12 @@ module objects
     {
         _isCentered:boolean;
         // constructor
-        constructor(x: number = 0, y: number = 0, public isCentered:boolean = false,
+        constructor(x: number = 0, y: number = 0,
+            public fontColour: string = "#000000",
+            public isCentered:boolean = false,
             public labelString:string = "default", 
-            public fontSize: string = "12px", 
-            public fontFamily: string = "Consolas",
-            public fontColour: string = "#000000"
+            public fontSize: string = "17px", 
+            public fontFamily: string = "Consolas"
             )
             {
                 super(labelString, fontSize + " " + fontFamily, fontColour);
@@ -24,7 +25,6 @@ module objects
             }
 
         // methods
-
         public setText(newText:string)
         {
             this.text = newText;
