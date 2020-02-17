@@ -1,5 +1,7 @@
-// IIFE - Immediately invoked function expression
-// means = anonymous self-executing function
+// Viet Anh Pham
+// Student ID : 300973445
+// Date: 2020/02/16
+// Version: 1.0.5
 let Game = (function(){
 
     let canvas:HTMLCanvasElement = document.getElementsByTagName("canvas")[0];
